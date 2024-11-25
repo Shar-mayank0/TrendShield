@@ -101,9 +101,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Contributors
 
-- [Your Name](https://github.com/yourusername) - *Initial work*
+- [Mayank Sharma](https://github.com/Shar-mayank0) 
 
 ## 🌟 Acknowledgments
 
-- Thanks to all contributors who have helped shape TrendShield
 - Special thanks to the open-source community for the tools and libraries used in this project
