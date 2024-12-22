@@ -1,0 +1,93 @@
+version: "3.8"
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: trendshield_db
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: app_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+  # PgAdmin for database management (optional)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    volumes:
+      - ./pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+  # Redis for task queuing
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  # Django Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: always
+    environment:
+      DATABASE_URL: "postgresql://app_user:app_password@postgres:5432/trendshield_db"
+      REDIS_URL: "redis://redis:6379/0"
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    command: tail -f /dev/null
+
+  # Celery Worker for async task processing
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: celery_worker
+    restart: always
+    # command: celery -A trendshield_back worker --loglevel=info
+    environment:
+      DATABASE_URL: "postgresql://app_user:app_password@postgres:5432/trendshield_db"
+      REDIS_URL: "redis://redis:6379/0"
+    depends_on:
+      - redis
+      - postgres
+      - backend
+    volumes:
+      - ./backend:/app
+    command: tail -f /dev/null
+
+  # Next.js Frontend
+  frontend:
+    build:
+      context: ./nextapp
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: always
+    environment:
+      NEXT_PUBLIC_BACKEND_URL: "http://backend:8000"
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./nextapp:/app

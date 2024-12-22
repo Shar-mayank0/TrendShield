@@ -1,0 +1,26 @@
+# Use the official Python Alpine image
+FROM python:3.12-alpine3.20
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies for building Python packages
+RUN apk update && apk add --no-cache \
+    gcc \
+    g++ \
+    musl-dev \
+    libpq-dev \
+    python3-dev \
+    build-base \
+    && rm -rf /var/cache/apk/*
+
+# Copy requirements file and install Python dependencies
+COPY ./requirnments.txt ./requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+
+# Copy the project files into the container
+COPY ./trendshield_back /app/trendshield_back
+
+# Run the application
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

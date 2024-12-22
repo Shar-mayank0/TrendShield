@@ -1,0 +1,192 @@
+# ==========================================
+# GENERAL IGNORABLE FILES
+# ==========================================
+*.log
+*.pyc
+*.pyo
+*.swp
+*.DS_Store
+*.pem
+*.pid
+
+# Temporary or cache directories
+__pycache__/
+.cache/
+.temp/
+.history/
+
+# Environment files
+.env
+.env*.local
+
+# ==========================================
+# DJANGO
+# ==========================================
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+migrations/
+
+# ==========================================
+# POSTGRESQL
+# ==========================================
+*.pgsql
+
+# ==========================================
+# NEXT.JS
+# ==========================================
+/node_modules/
+/.next/
+/out/
+/build
+*.tsbuildinfo
+next-env.d.ts
+
+# Testing
+/coverage
+/.eslintcache
+/.stylelintcache
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ==========================================
+# CHROME EXTENSION
+# ==========================================
+/extension/build/
+/extension/dist/
+*.crx
+/extension/node_modules/
+
+# ==========================================
+# DOCKER (if applicable)
+# ==========================================
+docker-compose.override.yml
+
+# ==========================================
+# VISUAL STUDIO CODE
+# ==========================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+# ==========================================
+# PYTHON PROJECTS
+# ==========================================
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+.tox/
+.nox/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Pipenv
+pip-log.txt
+pip-delete-this-directory.txt
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+# SageMath
+*.sage.py
+
+# Pyre
+.pyre/
+
+# pytype
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# ==========================================
+# IDE-SPECIFIC FILES
+# ==========================================
+.vscode/
+.history/
+*.code-workspace
+
+# ==========================================
+# EXTRA TOOLS & DEPENDENCIES
+# ==========================================
+# Node.js
+.pnp
+.pnp.js
+
+# Scrapy
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# MkDocs
+/site
+
+# PGAdmin and PostgreSQL data
+pgadmin_data/
+postgres_data/
