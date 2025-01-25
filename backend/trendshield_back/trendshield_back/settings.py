@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-lm3)__yi1vp6p1^+@d2_9go8b4j5^zjd#gg8%y#6g560e#rk3x'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -76,12 +80,21 @@ WSGI_APPLICATION = 'trendshield_back.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'trendshield_db',        # Matches POSTGRES_DB in Docker Compose
-        'USER': 'app_user',              # Matches POSTGRES_USER
-        'PASSWORD': 'app_password',      # Matches POSTGRES_PASSWORD
-        'HOST': 'postgres',              # Service name from Docker Compose
-        'PORT': '5432',                  # PostgreSQL default port
+        'ENGINE': os.getenv("DB_ENGINE"),  # 'django.db.backends.postgresql',
+        'NAME': os.getenv("NAME"),        # Matches POSTGRES_DB in Docker Compose
+        'USER': os.getenv("USER"),              # Matches POSTGRES_USER
+        'PASSWORD': os.getenv("PASSWORD"),      # Matches POSTGRES_PASSWORD
+        'PORT': os.getenv("PORT"),                  # PostgreSQL default port
+        'HOST': os.getenv("HOST"),              # Service name from Docker Compose
+    }
+}
+
+# for testing uncomment this and comment the above DATABASES
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -127,7 +140,17 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Celery Configuration
-CELERY_BROKER_URL = 'redis://redis:6379/0'  # Redis URL
-CELERY_ACCEPT_CONTENT = ['json']
+# # Celery Configuration
+# CELERY_BROKER_URL = 'redis://redis:6379/0'  # Redis URL
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+
+# trendshield_back/settings.py
+
+# this is for testing purpose only in production uncomment the above code
+# and comment this code
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")  # Use WSL IP address as the broker
+CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")  # Use the same for result backend
+CELERY_TIMEZONE = 'Asia/Kolkata'

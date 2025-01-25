@@ -2,14 +2,21 @@ from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
 
-# Set default Django settings module
+from django.conf import settings
+from matplotlib.pylab import f
+
+
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'trendshield_back.settings')
-
-# Create Celery app
 app = Celery('trendshield_back')
+app.conf.enable_utc = False
+app.conf.update(timezone='Asia/Kolkata')
 
-# Load settings from Django settings file
-app.config_from_object('django.conf:settings', namespace='CELERY')
+app.config_from_object(settings, namespace='CELERY')
 
-# Discover tasks in installed apps
-app.autodiscover_tasks()
+app.autodiscover_tasks(['initializer.tasks'])
+
+@app.task(bind=True)
+def debug_task(self):
+    print(f'Request: {self.request!r}')
+    
