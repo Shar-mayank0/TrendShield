@@ -2,7 +2,7 @@ import re
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .tasks import scrape_data  # Importing the task correctly
+from .tasks import scrape_data, ml_analysis  # Importing the tasks correctly
 from .models import ProductURLData
 
 @csrf_exempt
@@ -23,16 +23,17 @@ def handle_get_url(request):
                 return JsonResponse({'error': 'Please provide all required fields'}, status=400)
 
             # Step 1: Trigger Scraping Worker
-            # Use apply_async to trigger the Celery task asynchronously
             result = scrape_data.apply_async(args=[prod_URL, prod_ID, site])
-            result.get(timeout=30)
-
-            # Step 2: Chain ML Processing After Scraping (You can chain another task here if needed)
-            # You can use Celery's `link` or `link_error` to chain additional tasks to handle the result
-
-            # Step 3: Chain DB Storage After Processing (Chain if needed)
-
-            return JsonResponse({'message': 'Scraping pipeline started', 'task_id': result.id}, status=200)
+            try:
+                scraping_response, scraping_data = result.get(timeout=30)
+                if scraping_response and scraping_data:
+                    # Trigger ML analysis task here
+                    ml_result = ml_analysis.apply_async(args=[scraping_data, prod_ID])
+                    return JsonResponse({'message': 'Scraping completed, ML analysis started', 'data': scraping_response}, status=200)
+                else:
+                    return JsonResponse({'error': 'Empty response from scraping task'}, status=400)
+            except Exception as e:
+                return JsonResponse({'error': f'No response from the scraping task: {str(e)}'}, status=500)
 
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)

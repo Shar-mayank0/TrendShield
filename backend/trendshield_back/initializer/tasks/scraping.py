@@ -6,5 +6,7 @@ from ..scraper import WebScraper
 def scrape_data(product_url, product_id, site):
     scraper = WebScraper(product_url, product_id, site)
     res =  scraper.res
+    data = scraper.scraperData
+    return res, data
     
 

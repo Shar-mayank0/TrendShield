@@ -6,21 +6,19 @@ import numpy as np
 import sys
 import os
 import matplotlib as plt
-from matplotlib.figure import Figure
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import DBSCAN
 from sklearn.cluster import KMeans
-import plotly.graph_objs as go
 import numpy as np
 import matplotlib.pyplot as plt
-from itertools import combinations
 from sklearn.metrics import silhouette_score
 
 class MLAnalyze:
-    def __init__(self, data):
+    def __init__(self, data, product_id):
         json_data = json.loads(data)
+        self.product_id = product_id
 
         self.dates = json_data.get('dates')
         self.prices = json_data.get('prices')
@@ -166,7 +164,7 @@ class MLAnalyze:
         # Set the labels and title
         ax.set_xlabel('Date')
         ax.set_ylabel('Price')
-        ax.set_title(f'Product ID: CMKGFPG9KCGZGYRP')
+        ax.set_title(f'Product ID: {self.product_id}')
 
         # Add a legend
         ax.legend()

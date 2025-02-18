@@ -4,6 +4,7 @@ import re
 import json
 from bs4 import BeautifulSoup
 from celery import shared_task
+from zmq import NULL
 from .models import ProductURLData, PriceHistData
 import logging
 
@@ -13,6 +14,7 @@ class WebScraper:
     def __init__(self, product_url, product_id, site):
         self.search_product(product_url, product_id, site)
         self.res = f"scraping started for {product_id} from {site}"
+        self.scraperData = None
 
     def test_worker(self):
         for i in range(100000000):
@@ -42,7 +44,8 @@ class WebScraper:
             json_data = json.loads(match.group(1))  # Extract and parse JSON
             json_data["site"] = site
             json_data["prod_id"] = product_id
-            self.res = f"[INFO] Successfully extracted product data: {json_data}"
+            self.res = f"[INFO] Successfully extracted product data"
+            self.scraperData = json_data
             logger.info(self.res)
 
             # TODO: Upload to database

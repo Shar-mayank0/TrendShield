@@ -78,16 +78,16 @@ WSGI_APPLICATION = 'trendshield_back.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': os.getenv("DB_ENGINE"),  # 'django.db.backends.postgresql',
-        'NAME': os.getenv("NAME"),        # Matches POSTGRES_DB in Docker Compose
-        'USER': os.getenv("USER"),              # Matches POSTGRES_USER
-        'PASSWORD': os.getenv("PASSWORD"),      # Matches POSTGRES_PASSWORD
-        'PORT': os.getenv("PORT"),                  # PostgreSQL default port
-        'HOST': os.getenv("HOST"),              # Service name from Docker Compose
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv("DB_ENGINE"),  # 'django.db.backends.postgresql',
+#         'NAME': os.getenv("NAME"),        # Matches POSTGRES_DB in Docker Compose
+#         'USER': os.getenv("USER"),              # Matches POSTGRES_USER
+#         'PASSWORD': os.getenv("PASSWORD"),      # Matches POSTGRES_PASSWORD
+#         'PORT': os.getenv("PORT"),                  # PostgreSQL default port
+#         'HOST': os.getenv("HOST"),              # Service name from Docker Compose
+#     }
+# }
 
 # for testing uncomment this and comment the above DATABASES
 
