@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -78,25 +78,25 @@ WSGI_APPLICATION = 'trendshield_back.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': os.getenv("DB_ENGINE"),  # 'django.db.backends.postgresql',
-#         'NAME': os.getenv("NAME"),        # Matches POSTGRES_DB in Docker Compose
-#         'USER': os.getenv("USER"),              # Matches POSTGRES_USER
-#         'PASSWORD': os.getenv("PASSWORD"),      # Matches POSTGRES_PASSWORD
-#         'PORT': os.getenv("PORT"),                  # PostgreSQL default port
-#         'HOST': os.getenv("HOST"),              # Service name from Docker Compose
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': os.getenv("DB_ENGINE"),  # 'django.db.backends.postgresql',
+        'NAME': os.getenv("NAME"),        # Matches POSTGRES_DB in Docker Compose
+        'USER': os.getenv("USER"),              # Matches POSTGRES_USER
+        'PASSWORD': os.getenv("PASSWORD"),      # Matches POSTGRES_PASSWORD
+        'PORT': os.getenv("PORT"),                  # PostgreSQL default port
+        'HOST': os.getenv("HOST"),              # Service name from Docker Compose
+    }
+}
 
 # for testing uncomment this and comment the above DATABASES
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
@@ -140,15 +140,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# # Celery Configuration
-# CELERY_BROKER_URL = 'redis://redis:6379/0'  # Redis URL
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_TASK_SERIALIZER = 'json'
 
-# trendshield_back/settings.py
-
-# this is for testing purpose only in production uncomment the above code
-# and comment this code
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")  # Use WSL IP address as the broker
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'

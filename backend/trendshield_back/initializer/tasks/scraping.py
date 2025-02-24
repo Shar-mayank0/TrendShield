@@ -1,4 +1,3 @@
-from email import message
 from celery import shared_task
 from ..scraper import WebScraper
 

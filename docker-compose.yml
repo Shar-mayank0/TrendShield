@@ -12,6 +12,11 @@ services:
       - "5432:5432"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app_user"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   # PgAdmin for database management (optional)
   pgadmin:
@@ -40,39 +45,40 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: dockerfile.backend
     container_name: backend
     restart: always
-    environment:
-      DATABASE_URL: "postgresql://app_user:app_password@postgres:5432/trendshield_db"
-      REDIS_URL: "redis://redis:6379/0"
+    env_file:
+      - ./backend/trendshield_back/.env
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
     ports:
-      - "8000:8000"
+      - "80:8000"
     volumes:
       - ./backend:/app
-    command: tail -f /dev/null
 
   # Celery Worker for async task processing
   worker:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: dockerfile.celery
     container_name: celery_worker
     restart: always
-    # command: celery -A trendshield_back worker --loglevel=info
-    environment:
-      DATABASE_URL: "postgresql://app_user:app_password@postgres:5432/trendshield_db"
-      REDIS_URL: "redis://redis:6379/0"
+    env_file:
+      - ./backend/trendshield_back/.env
     depends_on:
-      - redis
-      - postgres
-      - backend
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      backend:
+        condition: service_started
     volumes:
       - ./backend:/app
-    command: tail -f /dev/null
+    command: celery -A trendshield_back worker --loglevel=info
 
   # Next.js Frontend
   frontend:

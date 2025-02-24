@@ -1,10 +1,7 @@
-from arrow import get
 import pandas as pd
 import json
 from scipy import stats
 import numpy as np
-import sys
-import os
 import matplotlib as plt
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
@@ -19,13 +16,9 @@ class MLAnalyze:
     def __init__(self, data, product_id):
         json_data = json.loads(data)
         self.product_id = product_id
-
         self.dates = json_data.get('dates')
         self.prices = json_data.get('prices')
-
         self.get_data(self.dates, self.prices)
-
-        pass
 
         # get json data from the scraper or the database
     def get_data(self, dates, prices):
@@ -171,7 +164,7 @@ class MLAnalyze:
         # save the plot image 
         # Show the plot
         plt.show()
-        pass
+        
 
     def upload_data(self, data):
         # upload the data to the database
