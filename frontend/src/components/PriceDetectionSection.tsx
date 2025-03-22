@@ -1,12 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
 import { Search } from "lucide-react";
 
 export default function PriceDetectionSection(){
@@ -14,7 +8,7 @@ export default function PriceDetectionSection(){
   const navItems = ["Home", "About"];
 
   return (
-    
+
     <section className="w-full bg-neutral-900 text-white ">
       {/* Navigation Bar */}
       <header className="w-full border-b border-gray-800 py-5 px-4">
