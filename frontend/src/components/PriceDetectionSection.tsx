@@ -4,8 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
 export default function PriceDetectionSection(){
-  // Navigation menu items
-  const navItems = ["Home", "About"];
 
   return (
 

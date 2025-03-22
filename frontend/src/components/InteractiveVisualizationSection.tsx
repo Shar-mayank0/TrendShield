@@ -1,9 +1,14 @@
+'use client';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Info, ToggleLeft, ZoomIn } from "lucide-react";
 
+import { useState } from "react";
+
 export default function InteractiveVisualizationSection(){
+  const [activeView, setActiveView] = useState<'all' | 'anomalies' | 'clusters'>('all');
+  
   // Data for interactive features
   const interactiveFeatures = [
     {
@@ -46,12 +51,13 @@ export default function InteractiveVisualizationSection(){
     },
   ];
 
+  const [activeTimeRange, setActiveTimeRange] = useState("1W");
   // Time range options
   const timeRangeOptions = [
-    { label: "1W", active: true },
-    { label: "1M", active: false },
-    { label: "3M", active: false },
-    { label: "1Y", active: false },
+    { label: "1W" },
+    { label: "1M" },
+    { label: "3M" },
+    { label: "1Y" },
   ];
 
   return (
@@ -77,23 +83,26 @@ export default function InteractiveVisualizationSection(){
               <CardTitle className="text-xl text-[#2c3e50] font-['Roboto-Bold'  ]">
                 Price History Analysis
               </CardTitle>
-              <p className="text-base text-gray-600 font-['Open_Sans-Regular'  ]">
-                Last 30 days of trading activity
-              </p>
             </div>
             <div className="flex space-x-2">
-              <Button className="bg-[#3498db] hover:bg-[#2980b9] text-white">
+              <Button 
+                className={activeView === 'all' ? "bg-[#3498db] hover:bg-[#2980b9] text-white" : "border-[#3498db] text-[#3498db] hover:bg-[#3498db]/10"}
+                variant={activeView === 'all' ? "default" : "outline"}
+                onClick={() => setActiveView('all')}
+              >
                 View All Data
               </Button>
               <Button
-                variant="outline"
-                className="border-[#3498db] text-[#3498db] hover:bg-[#3498db]/10"
+                variant={activeView === 'anomalies' ? "default" : "outline"}
+                className={activeView === 'anomalies' ? "bg-[#3498db] hover:bg-[#2980b9] text-white" : "border-[#3498db] text-[#3498db] hover:bg-[#3498db]/10"}
+                onClick={() => setActiveView('anomalies')}
               >
                 Anomalies Only
               </Button>
               <Button
-                variant="outline"
-                className="border-[#3498db] text-[#3498db] hover:bg-[#3498db]/10"
+                variant={activeView === 'clusters' ? "default" : "outline"}
+                className={activeView === 'clusters' ? "bg-[#3498db] hover:bg-[#2980b9] text-white" : "border-[#3498db] text-[#3498db] hover:bg-[#3498db]/10"}
+                onClick={() => setActiveView('clusters')}
               >
                 Show Clusters
               </Button>
@@ -114,8 +123,9 @@ export default function InteractiveVisualizationSection(){
                   {timeRangeOptions.map((option, index) => (
                     <Button
                       key={index}
-                      variant={option.active ? "default" : "outline"}
-                      className={`h-[30px] w-[45px] px-0 ${option.active ? "bg-[#3498db] hover:bg-[#2980b9]" : "border-gray-300 text-gray-700"}`}
+                      variant={activeTimeRange === option.label ? "default" : "outline"}
+                      className={`h-[30px] w-[45px] px-0 ${activeTimeRange === option.label ? "bg-[#3498db] hover:bg-[#2980b9]" : "border-gray-300 text-gray-700"}`}
+                      onClick={() => setActiveTimeRange(option.label)}
                     >
                       {option.label}
                     </Button>
