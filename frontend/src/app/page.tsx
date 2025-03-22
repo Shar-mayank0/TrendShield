@@ -1,11 +1,11 @@
 import React from "react";
 import DashboardHeaderSection from "../components/DashboardHeaderSection";
-import  FeaturesSection  from "../components/FeatureSection";  
-import  FooterSection  from "../components/FooterSection";
-import  InteractiveVisualizationSection  from "../components/InteractiveVisualizationSection";
-import  PriceDetectionSection  from "../components/PriceDetectionSection";
+import FeaturesSection from "../components/FeatureSection";
+import FooterSection from "../components/FooterSection";
+import InteractiveVisualizationSection from "../components/InteractiveVisualizationSection";
+import PriceDetectionSection from "../components/PriceDetectionSection";
 
-export default function Page(){
+export default function Page() {
   return (
     <main className="flex flex-col w-full min-h-screen">
       <section className="w-full">
@@ -16,7 +16,7 @@ export default function Page(){
         <DashboardHeaderSection />
       </section>
 
-      <section className="w-full">
+      <section id="visualization-section" className="w-full">
         <InteractiveVisualizationSection />
       </section>
 

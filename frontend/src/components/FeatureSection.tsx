@@ -10,7 +10,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-
 export default function FeaturesSection() {
   // Data for insights table
   const insightData = [
@@ -100,31 +99,6 @@ export default function FeaturesSection() {
                   ))}
                 </TableBody>
               </Table>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-neutral-50 shadow-[0px_2px_4px_-2px_#0000001a,0px_4px_6px_-1px_#0000001a] rounded-lg overflow-hidden">
-          <CardContent className="flex flex-col items-center justify-center py-6 px-6">
-            <h2 className="text-xl font-bold text-[#2c3e50] text-center mb-4 font-['Roboto-Bold'  ]">
-              Ready to See More?
-            </h2>
-            <p className="text-base text-gray-600 text-center max-w-[700px] mb-8 font-['Open_Sans-Regular'  ]">
-              Dive deeper into the analysis with our customizable reports and
-              alerts tailored to your specific
-              <br />
-              market needs.
-            </p>
-            <div className="flex gap-4">
-              <Button className="h-[50px] px-6 bg-[#3498db] text-white rounded-md font-['Open_Sans-Regular'  ]">
-                Schedule a Demo
-              </Button>
-              <Button
-                variant="outline"
-                className="h-[50px] px-6 bg-white text-[#3498db] border-[#3498db] rounded-md font-['Open_Sans-Regular'  ]"
-              >
-                Download Sample Report
-              </Button>
             </div>
           </CardContent>
         </Card>
