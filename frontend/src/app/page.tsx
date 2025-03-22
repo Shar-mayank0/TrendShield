@@ -1,6 +1,5 @@
 import React from "react";
 import DashboardHeaderSection from "../components/DashboardHeaderSection";
-import FeaturesSection from "../components/FeatureSection";
 import FooterSection from "../components/FooterSection";
 import InteractiveVisualizationSection from "../components/InteractiveVisualizationSection";
 import PriceDetectionSection from "../components/PriceDetectionSection";
@@ -18,10 +17,6 @@ export default function Page() {
 
       <section id="visualization-section" className="w-full">
         <InteractiveVisualizationSection />
-      </section>
-
-      <section className="w-full">
-        <FeaturesSection />
       </section>
 
       <section className="w-full">

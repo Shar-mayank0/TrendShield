@@ -11,6 +11,74 @@ export default function PriceDetectionSection() {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+  const UrlSearch = (p_url: any) => {
+    const amazonProductPage = /https:\/\/www.amazon.in\/.*\/dp\/.*/;
+    const flipkartproductpage = /https:\/\/www.flipkart.com\/.*\/p\/.*/;
+    if (flipkartproductpage.test(p_url)){
+      const params = new URLSearchParams(new URL(p_url).search);
+      const pid = params.get('pid');
+      if (pid === null) {
+        console.log("'pid' parameter is not present in the URL");
+      } else {
+        console.log(`'pid' parameter value is: ${pid}`);
+      }
+      console.log('Flipkart product page detected');
+      const url_Data = {Product_ID: pid, Product_URL: p_url, site: 'Flipkart'};
+      console.log(url_Data);
+      console.log('Product ID:', pid);
+      console.log('Product URL:', p_url);
+      fetch(`backendapi.trendshield.in`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(url_Data),
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+    else if (amazonProductPage.test(p_url)){
+      const params = new URLSearchParams(new URL(p_url).search);
+      const asin = params.get('asin');
+      if (asin === null) {
+        console.log("'asin' parameter is not present in the URL");
+      } else {
+        console.log(`'asin' parameter value is: ${asin}`);
+      }
+      console.log('Amazon product page detected');
+      const url_Data = {Product_ID: asin, Product_URL: p_url, site: 'Amazon'};
+      console.log(url_Data);
+      console.log('Product ID:', asin);
+      console.log('Product URL:', p_url);
+      fetch(`backendapi.trendshield.in`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(url_Data),
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+    else if (p_url === '') {
+      alert('Please enter a URL');
+    }
+    else{
+      alert('Please enter a valid Amazon or Flipkart URL');
+    }
+     
+  }
+
   return (
     <section className="w-full bg-neutral-900 text-white">
       {/* Navigation Bar */}
@@ -23,13 +91,19 @@ export default function PriceDetectionSection() {
               {/* <img src="" alt="Logo" className="w-8 h-8" /> */}
 
               {/* Search field - responsive width */}
-              <div className="flex items-center flex-1 sm:w-[240px] md:w-[303px] bg-[#fcfcfc05] rounded-[10px] border border-solid border-gray-700 px-3 py-2">
+                <form onSubmit={(e) => {
+                e.preventDefault();
+                const inputElement = e.currentTarget.querySelector('input');
+                if (inputElement) {
+                  UrlSearch(inputElement.value);
+                }
+                }} className="flex items-center flex-1 sm:w-[240px] md:w-[303px] bg-[#fcfcfc05] rounded-[10px] border border-solid border-gray-700 px-3 py-2">
                 <Search className="w-4 h-4 text-gray-400" />
                 <Input
                   className="border-0 bg-transparent text-xs text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 h-5 px-2"
-                  placeholder="Search"
+                  placeholder="Enter Product URL"
                 />
-              </div>
+                </form>
             </div>
 
             {/* Button moved below on mobile */}

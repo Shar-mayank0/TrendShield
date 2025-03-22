@@ -1,31 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Facebook, Instagram, Linkedin, Send, Twitter } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Send, Twitter, Github } from "lucide-react";
 
 
 export default function FooterSection(){
-  // Quick links data
-  const quickLinks = [
-    { title: "Overview", href: "#" },
-    { title: "Visualization", href: "#" },
-    { title: "Insights", href: "#" },
-    { title: "Technical", href: "#" },
-    { title: "User Flow", href: "#" },
-    { title: "FAQ", href: "#" },
-    { title: "Contact", href: "#" },
-  ];
-
-  // Resources data
-  const resources = [
-    { title: "Documentation", href: "#" },
-    { title: "API Reference", href: "#" },
-    { title: "Blog", href: "#" },
-    { title: "Case Studies", href: "#" },
-    { title: "Webinars", href: "#" },
-    { title: "Privacy Policy", href: "#" },
-    { title: "Terms of Service", href: "#" },
-  ];
+ 
 
   // Footer policies
   const policies = [
@@ -61,45 +41,10 @@ export default function FooterSection(){
               <a href="#" className="text-gray-400 hover:text-[#3498db]">
                 <Linkedin size={20} />
               </a>
+              <a href="#" className="text-gray-400 hover:text-[#3498db]">
+                <Github size={20} />
+              </a>
             </div>
-          </div>
-
-          {/* Quick Links column */}
-          <div className="space-y-4">
-            <h3 className="font-bold text-lg text-white font-['Roboto-Bold'  ] leading-7">
-              Quick Links
-            </h3>
-            <ul className="space-y-3">
-              {quickLinks.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-[#3498db] text-base font-['Open_Sans-Regular'  ] leading-6"
-                  >
-                    {link.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources column */}
-          <div className="space-y-4">
-            <h3 className="font-bold text-lg text-white font-['Roboto-Bold'  ] leading-7">
-              Resources
-            </h3>
-            <ul className="space-y-3">
-              {resources.map((resource, index) => (
-                <li key={index}>
-                  <a
-                    href={resource.href}
-                    className="text-gray-400 hover:text-[#3498db] text-base font-['Open_Sans-Regular'  ] leading-6"
-                  >
-                    {resource.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
           </div>
 
           {/* Subscribe column */}
