@@ -130,17 +130,17 @@ export default function InteractiveVisualizationSection() {
             <div className="grid grid-cols-3 gap-6">
               {/* Time Range Panel */}
               <div className="bg-neutral-100 rounded-md p-4">
-                <h4 className="text-sm font-bold text-gray-500 font-['Roboto-Bold'  ] mb-2">
+                <h4 className="text-xs md:text-sm font-bold text-gray-500 font-['Roboto-Bold'  ] mb-2">
                   TIME RANGE
                 </h4>
-                <div className="flex space-x-4">
+                <div className="flex space-x-4 sm:w-auto ">
                   {timeRangeOptions.map((option, index) => (
                     <Button
                       key={index}
                       variant={
                         activeTimeRange === option.label ? "default" : "outline"
                       }
-                      className={`h-[30px] w-[45px] px-0 ${
+                      className={`text-xs md:text-sm h-[30px] w-[45px] px-0 ${
                         activeTimeRange === option.label
                           ? "bg-[#3498db] hover:bg-[#2980b9]"
                           : "border-gray-300 text-gray-700"
@@ -155,7 +155,7 @@ export default function InteractiveVisualizationSection() {
 
               {/* Detected Anomalies Panel */}
               <div className="bg-neutral-100 rounded-md p-4">
-                <h4 className="text-sm font-bold text-gray-500 font-['Roboto-Bold'  ] mb-2">
+                <h4 className="text-xs md:text-sm font-bold text-gray-500 font-['Roboto-Bold'  ] mb-2">
                   DETECTED ANOMALIES
                 </h4>
                 <p className="text-2xl font-bold text-[#e74c3c] font-['Open_Sans-Bold'  ]">
@@ -168,7 +168,7 @@ export default function InteractiveVisualizationSection() {
 
               {/* Confidence Score Panel */}
               <div className="bg-neutral-100 rounded-md p-4">
-                <h4 className="text-sm font-bold text-gray-500 font-['Roboto-Bold'  ] mb-2">
+                <h4 className="text-xs md:text-sm font-bold text-gray-500 font-['Roboto-Bold'  ] mb-2">
                   CONFIDENCE SCORE
                 </h4>
                 <p className="text-2xl font-bold text-[#2c3e50] font-['Open_Sans-Bold'  ]">
