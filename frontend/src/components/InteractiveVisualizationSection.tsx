@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,9 +6,11 @@ import { Info, ToggleLeft, ZoomIn } from "lucide-react";
 
 import { useState } from "react";
 
-export default function InteractiveVisualizationSection(){
-  const [activeView, setActiveView] = useState<'all' | 'anomalies' | 'clusters'>('all');
-  
+export default function InteractiveVisualizationSection() {
+  const [activeView, setActiveView] = useState<
+    "all" | "anomalies" | "clusters"
+  >("all");
+
   // Data for interactive features
   const interactiveFeatures = [
     {
@@ -85,24 +87,36 @@ export default function InteractiveVisualizationSection(){
               </CardTitle>
             </div>
             <div className="flex space-x-2">
-              <Button 
-                className={activeView === 'all' ? "bg-[#3498db] hover:bg-[#2980b9] text-white" : "border-[#3498db] text-[#3498db] hover:bg-[#3498db]/10"}
-                variant={activeView === 'all' ? "default" : "outline"}
-                onClick={() => setActiveView('all')}
+              <Button
+                className={
+                  activeView === "all"
+                    ? "bg-[#3498db] hover:bg-[#2980b9] text-white"
+                    : "border-[#3498db] text-[#3498db] hover:bg-[#3498db]/10"
+                }
+                variant={activeView === "all" ? "default" : "outline"}
+                onClick={() => setActiveView("all")}
               >
                 View All Data
               </Button>
               <Button
-                variant={activeView === 'anomalies' ? "default" : "outline"}
-                className={activeView === 'anomalies' ? "bg-[#3498db] hover:bg-[#2980b9] text-white" : "border-[#3498db] text-[#3498db] hover:bg-[#3498db]/10"}
-                onClick={() => setActiveView('anomalies')}
+                variant={activeView === "anomalies" ? "default" : "outline"}
+                className={
+                  activeView === "anomalies"
+                    ? "bg-[#3498db] hover:bg-[#2980b9] text-white"
+                    : "border-[#3498db] text-[#3498db] hover:bg-[#3498db]/10"
+                }
+                onClick={() => setActiveView("anomalies")}
               >
                 Anomalies Only
               </Button>
               <Button
-                variant={activeView === 'clusters' ? "default" : "outline"}
-                className={activeView === 'clusters' ? "bg-[#3498db] hover:bg-[#2980b9] text-white" : "border-[#3498db] text-[#3498db] hover:bg-[#3498db]/10"}
-                onClick={() => setActiveView('clusters')}
+                variant={activeView === "clusters" ? "default" : "outline"}
+                className={
+                  activeView === "clusters"
+                    ? "bg-[#3498db] hover:bg-[#2980b9] text-white"
+                    : "border-[#3498db] text-[#3498db] hover:bg-[#3498db]/10"
+                }
+                onClick={() => setActiveView("clusters")}
               >
                 Show Clusters
               </Button>
@@ -123,8 +137,14 @@ export default function InteractiveVisualizationSection(){
                   {timeRangeOptions.map((option, index) => (
                     <Button
                       key={index}
-                      variant={activeTimeRange === option.label ? "default" : "outline"}
-                      className={`h-[30px] w-[45px] px-0 ${activeTimeRange === option.label ? "bg-[#3498db] hover:bg-[#2980b9]" : "border-gray-300 text-gray-700"}`}
+                      variant={
+                        activeTimeRange === option.label ? "default" : "outline"
+                      }
+                      className={`h-[30px] w-[45px] px-0 ${
+                        activeTimeRange === option.label
+                          ? "bg-[#3498db] hover:bg-[#2980b9]"
+                          : "border-gray-300 text-gray-700"
+                      }`}
                       onClick={() => setActiveTimeRange(option.label)}
                     >
                       {option.label}
@@ -163,11 +183,11 @@ export default function InteractiveVisualizationSection(){
         </Card>
 
         {/* Bottom Cards Row */}
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Interactive Features Card */}
-          <Card className="shadow-[0px_4px_6px_-4px_#0000001a,0px_10px_15px_-3px_#0000001a] overflow-hidden">
+          <Card className="shadow-md overflow-hidden">
             <CardHeader className="pt-6 pb-2 px-6">
-              <CardTitle className="text-xl text-[#2c3e50] font-['Roboto-Bold'  ]">
+              <CardTitle className="text-xl text-[#2c3e50] font-bold">
                 Interactive Features
               </CardTitle>
             </CardHeader>
@@ -177,10 +197,10 @@ export default function InteractiveVisualizationSection(){
                   <div key={index} className="flex">
                     <div className="mr-2 mt-0.5">{feature.icon}</div>
                     <div>
-                      <h4 className="font-bold text-base text-gray-700 font-['Open_Sans-Bold'  ]">
+                      <h4 className="font-bold text-base text-gray-700">
                         {feature.title}
                       </h4>
-                      <p className="text-sm text-gray-600 font-['Open_Sans-Regular'  ]">
+                      <p className="text-sm text-gray-600">
                         {feature.description}
                       </p>
                     </div>
@@ -191,18 +211,17 @@ export default function InteractiveVisualizationSection(){
           </Card>
 
           {/* Clustering Analysis Card */}
-          <Card className="shadow-[0px_4px_6px_-4px_#0000001a,0px_10px_15px_-3px_#0000001a] overflow-hidden">
+          <Card className="shadow-md overflow-hidden">
             <CardHeader className="pt-6 pb-2 px-6">
-              <CardTitle className="text-xl text-[#2c3e50] font-['Roboto-Bold'  ]">
+              <CardTitle className="text-xl text-[#2c3e50] font-bold">
                 Clustering Analysis
               </CardTitle>
             </CardHeader>
             <CardContent className="px-6 pb-6">
-              <p className="text-base text-gray-600 font-['Open_Sans-Regular'  ] mb-5">
+              <p className="text-base text-gray-600 mb-5">
                 K-Means clustering helps identify patterns in pricing data by
-                grouping similar price movements
-                <br />
-                together, making anomalies easier to detect.
+                grouping similar price movements together, making anomalies
+                easier to detect.
               </p>
 
               <div className="bg-neutral-100 rounded-md p-4 mb-5">
@@ -211,7 +230,7 @@ export default function InteractiveVisualizationSection(){
                     <Badge
                       className={`w-3 h-3 rounded-full p-0 ${cluster.color}`}
                     />
-                    <span className="ml-2 text-[15.1px] text-gray-800 font-['Open_Sans-Regular'  ]">
+                    <span className="ml-2 text-[15.1px] text-gray-800">
                       {cluster.label}
                     </span>
                   </div>
