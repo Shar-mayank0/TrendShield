@@ -1,0 +1,29 @@
+# Web Scraping
+requests==2.32.3
+beautifulsoup4==4.12.3
+lxml==5.3.0
+cssselect==1.3.0
+scrapling==0.2.98
+w3lib==2.3.1
+tldextract==5.1.3
+aiohttp==3.11.14
+multidict==6.2.0
+yarl==1.18.3
+urllib3==2.2.3
+aiohappyeyeballs==2.6.1
+aiosignal==1.3.2
+playwright
+
+# Machine Learning & Analysis
+numpy==2.0.1
+scipy==1.14.0
+pandas==2.2.2
+scikit-learn==1.5.1
+matplotlib==3.9.2
+ml-dtypes==0.4.1
+networkx==3.4.2
+joblib==1.4.2
+h5py==3.12.1
+
+
+

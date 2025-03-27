@@ -11,7 +11,7 @@ export default function PriceDetectionSection() {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
-  const UrlSearch = (p_url: any) => {
+  const UrlSearch = (p_url: string) => {
     const amazonProductPage = /https:\/\/www.amazon.in\/.*\/dp\/.*/;
     const flipkartproductpage = /https:\/\/www.flipkart.com\/.*\/p\/.*/;
     if (flipkartproductpage.test(p_url)){

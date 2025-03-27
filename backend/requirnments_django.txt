@@ -1,0 +1,16 @@
+django==5.1.5
+asgiref==3.8.1
+sqlparse==0.5.3
+python-dotenv==1.0.1
+psycopg2==2.9.10
+psycopg2-binary==2.9.10
+jsonschema==4.23.0
+
+# Celery & Redis for task queue management
+celery==5.4.0
+redis==5.2.1
+django-celery-results==2.5.1
+kombu==5.4.2
+amqp==5.3.1
+vine==5.1.0
+billiard==4.2.1

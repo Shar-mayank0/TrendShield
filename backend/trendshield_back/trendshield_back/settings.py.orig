@@ -141,9 +141,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CELERY_broker_url = os.getenv("CELERY_broker_url")  # Use WSL IP address as the broker
-accept_content = ['application/json']
-task_serializer = 'json'
-result_backend = os.getenv("result_backend")  # Use the same for result backend
-timezone = 'Asia/Kolkata'
-broker_connection_retry_on_startup = True
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")  # Use WSL IP address as the broker
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")  # Use the same for result backend
+CELERY_TIMEZONE = 'Asia/Kolkata'

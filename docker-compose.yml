@@ -83,7 +83,7 @@ services:
   # Next.js Frontend
   frontend:
     build:
-      context: ./nextapp
+      context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend
     restart: always

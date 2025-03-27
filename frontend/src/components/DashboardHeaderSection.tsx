@@ -105,7 +105,7 @@ export default function DashboardHeaderSection(){
                     Density-Based Spatial Clustering of Applications with Noise
                     (DBSCAN) identifies clusters of
                     <br />
-                    normal pricing behavior and flags outliers that don't fit
+                    normal pricing behavior and flags outliers that don&apos;t fit
                     within these clusters as potential
                     <br />
                     anomalies.

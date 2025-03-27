@@ -2,14 +2,10 @@ import pandas as pd
 import json
 from scipy import stats
 import numpy as np
-import matplotlib as plt
-import matplotlib.dates as mdates
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import DBSCAN
 from sklearn.cluster import KMeans
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.metrics import silhouette_score
 
 class MLAnalyze:
@@ -18,7 +14,8 @@ class MLAnalyze:
         self.product_id = product_id
         self.dates = json_data.get('dates')
         self.prices = json_data.get('prices')
-        self.get_data(self.dates, self.prices)
+        self.anomalies = None
+        self.clusters = None
 
         # get json data from the scraper or the database
     def get_data(self, dates, prices):
@@ -85,11 +82,7 @@ class MLAnalyze:
         feature_names = ['prices', 'actual_discount', 'discount_discrepancy', 
                         'price_moving_average', 'price_change_freq', 
                         'price_variance', 'price_reversions']
-        num_features = features_scaled.shape[1]
-        best_eps = 0.01
-        best_min_samples = 1
-        best_score = -1
-
+        
         db = DBSCAN(eps=0.65, min_samples=14).fit(features_scaled)
         df['cluster'] = db.labels_
         df['anomaly_dbscan'] = db.labels_ == -1
@@ -134,36 +127,37 @@ class MLAnalyze:
         labels_kmeans = df['maliciousness_level']
         silhouette_kmeans = silhouette_score(features_scaled, labels_kmeans)
         print(f"Silhouette Score for KMeans: {silhouette_kmeans}")
-        return self.graph_output(df)
+        self.clusters = df['maliciousness_level']
+        self.anomalies = df['anomaly_dbscan']
+        return 
+    # def graph_output(self, df):
+    #     # graph the output
+    #     fig, ax = plt.subplots(figsize=(10, 6))
+    #     colors = {0: 'green', 1: 'lightgreen', 2: 'yellow', 3: 'orange', 4: 'red'}  # Mapping levels to colors
 
-    def graph_output(self, df):
-        # graph the output
-        fig, ax = plt.subplots(figsize=(10, 6))
-        colors = {0: 'green', 1: 'lightgreen', 2: 'yellow', 3: 'orange', 4: 'red'}  # Mapping levels to colors
+    #     # Plot the prices
+    #     ax.plot(df['dates'], df['prices'], color='blue', label='Prices')
 
-        # Plot the prices
-        ax.plot(df['dates'], df['prices'], color='blue', label='Prices')
+    #     # Plot the clusters detected by K-Means
+    #     clusters_kmeans = df['maliciousness_level'].unique()
+    #     for cluster in clusters_kmeans:
+    #         cluster_df = df[df['maliciousness_level'] == cluster]
+    #         ax.scatter(cluster_df['dates'], cluster_df['prices'], color=colors[cluster], label=f'Cluster {cluster}')
 
-        # Plot the clusters detected by K-Means
-        clusters_kmeans = df['maliciousness_level'].unique()
-        for cluster in clusters_kmeans:
-            cluster_df = df[df['maliciousness_level'] == cluster]
-            ax.scatter(cluster_df['dates'], cluster_df['prices'], color=colors[cluster], label=f'Cluster {cluster}')
+    #     # Set the x-axis format to display dates
+    #     ax.xaxis.set_major_locator(mdates.MonthLocator())
+    #     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
 
-        # Set the x-axis format to display dates
-        ax.xaxis.set_major_locator(mdates.MonthLocator())
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+    #     # Set the labels and title
+    #     ax.set_xlabel('Date')
+    #     ax.set_ylabel('Price')
+    #     ax.set_title(f'Product ID: {self.product_id}')
 
-        # Set the labels and title
-        ax.set_xlabel('Date')
-        ax.set_ylabel('Price')
-        ax.set_title(f'Product ID: {self.product_id}')
-
-        # Add a legend
-        ax.legend()
-        # save the plot image 
-        # Show the plot
-        plt.show()
+    #     # Add a legend
+    #     ax.legend()
+    #     # save the plot image 
+    #     # Show the plot
+    #     plt.show()
         
 
     def upload_data(self, data):
