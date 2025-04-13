@@ -1,5 +1,5 @@
 # Use the official Python Alpine image
-FROM python:3.10-alpine3.20
+FROM python:3.11
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -7,21 +7,12 @@ ENV PYTHONUNBUFFERED=1
 
 # Set working directory
 WORKDIR /app
-
 # Install system dependencies for building Python packages
-RUN apk update && apk add --no-cache \
-    gcc \
-    g++ \
-    musl-dev \
-    libpq-dev \
-    python3-dev \
-    build-base \
-    && rm -rf /var/cache/apk/*
-    
-
+RUN apt-get update && apt-get install -y build-essential
 # Copy requirements file and install Python dependencies
 COPY ./requirnments_celery_redis.txt ./requirnments_celery_redis.txt
-RUN pip install --upgrade pip && pip install --only-binary=:all: --no-cache-dir -r requirnments_celery_redis.txt || pip install --no-cache-dir -r requirnments_celery_redis.txt &&  scrapling install
+RUN pip install --upgrade pip && pip install -r requirnments_celery_redis.txt
+
 
 # Copy the project files into the container
 COPY ./trendshield_back /app/trendshield_back
@@ -29,8 +20,8 @@ COPY ./trendshield_back /app/trendshield_back
 WORKDIR /app/trendshield_back
 CMD ["celery", "-A", "trendshield_back", "worker", "--loglevel=info"]
 
-# Expose ports for the app and Redis communication
-EXPOSE 6379
+# # Expose the port the app runs on
+# EXPOSE 8000
 
 # # For development (using Django's runserver):
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
