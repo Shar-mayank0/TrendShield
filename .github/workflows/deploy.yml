@@ -81,7 +81,29 @@ jobs:
           sudo journalctl --vacuum-time=1d
 
           docker pull ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
-          docker run -d   --name trendshield_backend   -p 80:80   -p 443:80  ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
+          docker run -d  \
+          -e AWS_ACCESS_KEY_ID\
+          -e AWS_REGION\
+          -e AWS_SECRET_ACCESS_KEY\
+          -e BACKEND_SERVER_IP\
+          -e CELERY_BROKER_URL\
+          -e CELERY_RESULT_BACKEND\
+          -e CELERY_SERVER_IP\
+          -e ECR_REGISTRY\
+          -e ECR_REPOSITORY_BACKEND\
+          -e ECR_REPOSITORY_CELERY\
+          -e ECR_REPOSITORY_FRONTEND\
+          -e ENGINE\
+          -e FRONTEND_SERVER_IP\
+          -e HOST\
+          -e NAME\
+          -e PASSWORD\
+          -e PORT\
+          -e SECRET_KEY\
+          -e SSH_KEY\
+          -e SSH_USER\
+          -e USER\
+          --name trendshield_backend   -p 80:80   -p 443:80  ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
           exit
 
     - name: Deploy to celery EC2 server
@@ -103,7 +125,29 @@ jobs:
           sudo journalctl --vacuum-time=1d
 
           docker pull ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
-          docker run -d --name worker -p 80:80 ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
+          docker run -d \
+          -e AWS_ACCESS_KEY_ID\
+          -e AWS_REGION\
+          -e AWS_SECRET_ACCESS_KEY\
+          -e BACKEND_SERVER_IP\
+          -e CELERY_BROKER_URL\
+          -e CELERY_RESULT_BACKEND\
+          -e CELERY_SERVER_IP\
+          -e ECR_REGISTRY\
+          -e ECR_REPOSITORY_BACKEND\
+          -e ECR_REPOSITORY_CELERY\
+          -e ECR_REPOSITORY_FRONTEND\
+          -e ENGINE\
+          -e FRONTEND_SERVER_IP\
+          -e HOST\
+          -e NAME\
+          -e PASSWORD\
+          -e PORT\
+          -e SECRET_KEY\
+          -e SSH_KEY\
+          -e SSH_USER\
+          -e USER\
+          --name worker -p 80:80 ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
           exit
     
 
