@@ -8,7 +8,8 @@
 *.DS_Store
 *.pem
 *.pid
-
+*.key
+id_rsa
 # Temporary or cache directories
 __pycache__/
 .cache/
