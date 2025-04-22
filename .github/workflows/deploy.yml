@@ -48,9 +48,16 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script: |
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
-          docker stop trendshield_backend || true
-          docker rm trendshield_backend || true
-          docker system prune  -a -f || true
+
+          docker stop worker || true
+          docker rm worker || true
+          echo "🔥 Deep cleaning Docker..."
+          docker system prune -a --volumes -f
+          rm -rf /var/lib/docker/tmp/*
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get clean
+          sudo journalctl --vacuum-time=1d
+          
           docker pull ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
           docker run -d   --name trendshield_backend   -p 80:80   -p 443:80  ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
           exit
@@ -66,7 +73,13 @@ jobs:
 
           docker stop worker || true
           docker rm worker || true
-          docker system prune  -a -f || true
+          echo "🔥 Deep cleaning Docker..."
+          docker system prune -a --volumes -f
+          rm -rf /var/lib/docker/tmp/*
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get clean
+          sudo journalctl --vacuum-time=1d
+
           docker pull ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
           docker run -d --name worker -p 80:80 ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
           exit
@@ -80,9 +93,15 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script: |
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
-          docker stop frontend || true
-          docker rm frontend || true
-          docker system prune  -a -f || true
+
+          docker stop worker || true
+          docker rm worker || true
+          echo "🔥 Deep cleaning Docker..."
+          docker system prune -a --volumes -f
+          rm -rf /var/lib/docker/tmp/*
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get clean
+          sudo journalctl --vacuum-time=1d
           docker pull ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
           docker run --name frontend -d -p 81:3000 ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
           exit
