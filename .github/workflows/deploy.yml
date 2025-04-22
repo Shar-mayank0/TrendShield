@@ -43,14 +43,13 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Log in to Amazon ECR
-      id: login-ecr
       run: |
         aws ecr get-login-password | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
     - name: Build Docker images using Compose
       run: docker compose build
-        
-    - name: Tag and Push Docker image
+
+    - name: Tag and Push Docker images
       run: |
         docker tag trend_shield-backend ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
         docker push ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
@@ -61,118 +60,105 @@ jobs:
         docker tag trend_shield-frontend ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
         docker push ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
 
-
-    - name: Deploy to EC2 backend servers
+    - name: Deploy to EC2 backend server
       uses: appleboy/ssh-action@v1.2.2
       with:
         host: ${{ secrets.BACKEND_SERVER_IP }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+          bash <<'EOF'
+          set -e
+          aws ecr get-login-password --region '${{ secrets.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ secrets.ECR_REGISTRY }}'
 
           docker stop trendshield_backend || true
           docker rm trendshield_backend || true
-          echo "🔥 Deep cleaning Docker..."
           docker system prune -a --volumes -f
-          rm -rf /var/lib/docker/tmp/*
-          sudo rm -rf /var/lib/apt/lists/*
-          sudo apt-get clean
-          sudo journalctl --vacuum-time=1d
 
-          docker pull ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
-          docker run -d \
-          -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-          -e AWS_REGION=${{ secrets.AWS_REGION }} \
-          -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-          -e BACKEND_SERVER_IP=${{ secrets.BACKEND_SERVER_IP }} \
-          -e CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }} \
-          -e CELERY_RESULT_BACKEND=${{ secrets.CELERY_RESULT_BACKEND }} \
-          -e CELERY_SERVER_IP=${{ secrets.CELERY_SERVER_IP }} \
-          -e ECR_REGISTRY=${{ secrets.ECR_REGISTRY }} \
-          -e ECR_REPOSITORY_BACKEND=${{ secrets.ECR_REPOSITORY_BACKEND }} \
-          -e ECR_REPOSITORY_CELERY=${{ secrets.ECR_REPOSITORY_CELERY }} \
-          -e ECR_REPOSITORY_FRONTEND=${{ secrets.ECR_REPOSITORY_FRONTEND }} \
-          -e ENGINE=${{ secrets.ENGINE }} \
-          -e FRONTEND_SERVER_IP=${{ secrets.FRONTEND_SERVER_IP }} \
-          -e HOST=${{ secrets.HOST }} \
-          -e NAME=${{ secrets.NAME }} \
-          -e PASSWORD=${{ secrets.PASSWORD }} \
-          -e PORT=${{ secrets.PORT }} \
-          -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
-          -e SSH_KEY=${{ secrets.SSH_KEY }} \
-          -e SSH_USER=${{ secrets.SSH_USER }} \
-          -e USER=${{ secrets.USER }} \
-          --name trendshield_backend \
-          -p 80:80 -p 443:80 \
-          ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
-          exit
+          docker pull '${{ secrets.ECR_REPOSITORY_BACKEND }}:latest'
+          docker run -d --name trendshield_backend -p 80:80 -p 443:80 \
+          $(printf -- "-e %s='%s' " \
+            AWS_ACCESS_KEY_ID "${{ secrets.AWS_ACCESS_KEY_ID }}" \
+            AWS_REGION "${{ secrets.AWS_REGION }}" \
+            AWS_SECRET_ACCESS_KEY "${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+            BACKEND_SERVER_IP "${{ secrets.BACKEND_SERVER_IP }}" \
+            CELERY_BROKER_URL "${{ secrets.CELERY_BROKER_URL }}" \
+            CELERY_RESULT_BACKEND "${{ secrets.CELERY_RESULT_BACKEND }}" \
+            CELERY_SERVER_IP "${{ secrets.CELERY_SERVER_IP }}" \
+            ECR_REGISTRY "${{ secrets.ECR_REGISTRY }}" \
+            ECR_REPOSITORY_BACKEND "${{ secrets.ECR_REPOSITORY_BACKEND }}" \
+            ECR_REPOSITORY_CELERY "${{ secrets.ECR_REPOSITORY_CELERY }}" \
+            ECR_REPOSITORY_FRONTEND "${{ secrets.ECR_REPOSITORY_FRONTEND }}" \
+            ENGINE "${{ secrets.ENGINE }}" \
+            FRONTEND_SERVER_IP "${{ secrets.FRONTEND_SERVER_IP }}" \
+            HOST "${{ secrets.HOST }}" \
+            NAME "${{ secrets.NAME }}" \
+            PASSWORD "${{ secrets.PASSWORD }}" \
+            PORT "${{ secrets.PORT }}" \
+            SECRET_KEY "${{ secrets.SECRET_KEY }}" \
+            SSH_KEY "${{ secrets.SSH_KEY }}" \
+            SSH_USER "${{ secrets.SSH_USER }}" \
+            USER "${{ secrets.USER }}" ) \
+          '${{ secrets.ECR_REPOSITORY_BACKEND }}:latest'
+          EOF
 
-    - name: Deploy to celery EC2 server
+    - name: Deploy to EC2 celery server
       uses: appleboy/ssh-action@v1.2.2
       with:
         host: ${{ secrets.CELERY_SERVER_IP }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+          bash <<'EOF'
+          set -e
+          aws ecr get-login-password --region '${{ secrets.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ secrets.ECR_REGISTRY }}'
 
           docker stop worker || true
           docker rm worker || true
-          echo "🔥 Deep cleaning Docker..."
           docker system prune -a --volumes -f
-          sudo rm -rf /var/lib/docker/tmp/*
-          sudo rm -rf /var/lib/apt/lists/*
-          sudo apt-get clean
-          sudo journalctl --vacuum-time=1d
 
-          docker pull ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
-          docker run -d \
-          -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-          -e AWS_REGION=${{ secrets.AWS_REGION }} \
-          -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-          -e BACKEND_SERVER_IP=${{ secrets.BACKEND_SERVER_IP }} \
-          -e CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }} \
-          -e CELERY_RESULT_BACKEND=${{ secrets.CELERY_RESULT_BACKEND }} \
-          -e CELERY_SERVER_IP=${{ secrets.CELERY_SERVER_IP }} \
-          -e ECR_REGISTRY=${{ secrets.ECR_REGISTRY }} \
-          -e ECR_REPOSITORY_BACKEND=${{ secrets.ECR_REPOSITORY_BACKEND }} \
-          -e ECR_REPOSITORY_CELERY=${{ secrets.ECR_REPOSITORY_CELERY }} \
-          -e ECR_REPOSITORY_FRONTEND=${{ secrets.ECR_REPOSITORY_FRONTEND }} \
-          -e ENGINE=${{ secrets.ENGINE }} \
-          -e FRONTEND_SERVER_IP=${{ secrets.FRONTEND_SERVER_IP }} \
-          -e HOST=${{ secrets.HOST }} \
-          -e NAME=${{ secrets.NAME }} \
-          -e PASSWORD=${{ secrets.PASSWORD }} \
-          -e PORT=${{ secrets.PORT }} \
-          -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
-          -e SSH_KEY=${{ secrets.SSH_KEY }} \
-          -e SSH_USER=${{ secrets.SSH_USER }} \
-          -e USER=${{ secrets.USER }} \
-          --name worker \
-          -p 80:80 \
-          ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
-          exit
-    
+          docker pull '${{ secrets.ECR_REPOSITORY_CELERY }}:latest'
+          docker run -d --name worker -p 80:80 \
+          $(printf -- "-e %s='%s' " \
+            AWS_ACCESS_KEY_ID "${{ secrets.AWS_ACCESS_KEY_ID }}" \
+            AWS_REGION "${{ secrets.AWS_REGION }}" \
+            AWS_SECRET_ACCESS_KEY "${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+            BACKEND_SERVER_IP "${{ secrets.BACKEND_SERVER_IP }}" \
+            CELERY_BROKER_URL "${{ secrets.CELERY_BROKER_URL }}" \
+            CELERY_RESULT_BACKEND "${{ secrets.CELERY_RESULT_BACKEND }}" \
+            CELERY_SERVER_IP "${{ secrets.CELERY_SERVER_IP }}" \
+            ECR_REGISTRY "${{ secrets.ECR_REGISTRY }}" \
+            ECR_REPOSITORY_BACKEND "${{ secrets.ECR_REPOSITORY_BACKEND }}" \
+            ECR_REPOSITORY_CELERY "${{ secrets.ECR_REPOSITORY_CELERY }}" \
+            ECR_REPOSITORY_FRONTEND "${{ secrets.ECR_REPOSITORY_FRONTEND }}" \
+            ENGINE "${{ secrets.ENGINE }}" \
+            FRONTEND_SERVER_IP "${{ secrets.FRONTEND_SERVER_IP }}" \
+            HOST "${{ secrets.HOST }}" \
+            NAME "${{ secrets.NAME }}" \
+            PASSWORD "${{ secrets.PASSWORD }}" \
+            PORT "${{ secrets.PORT }}" \
+            SECRET_KEY "${{ secrets.SECRET_KEY }}" \
+            SSH_KEY "${{ secrets.SSH_KEY }}" \
+            SSH_USER "${{ secrets.SSH_USER }}" \
+            USER "${{ secrets.USER }}" ) \
+          '${{ secrets.ECR_REPOSITORY_CELERY }}:latest'
+          EOF
 
-    - name: Deploy to frontend EC2 server
+    - name: Deploy to EC2 frontend server
       uses: appleboy/ssh-action@v1.2.2
       with:
         host: ${{ secrets.FRONTEND_SERVER_IP }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+          bash <<'EOF'
+          set -e
+          aws ecr get-login-password --region '${{ secrets.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ secrets.ECR_REGISTRY }}'
 
           docker stop frontend || true
           docker rm frontend || true
-          echo "🔥 Deep cleaning Docker..."
           docker system prune -a --volumes -f
-          rm -rf /var/lib/docker/tmp/*
-          sudo rm -rf /var/lib/apt/lists/*
-          sudo apt-get clean
-          sudo journalctl --vacuum-time=1d
-          docker pull ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
-          docker run --name frontend -d -p 81:3000 ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
-          exit
-    
+
+          docker pull '${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest'
+          docker run -d --name frontend -p 81:3000 '${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest'
+          EOF
