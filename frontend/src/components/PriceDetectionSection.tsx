@@ -16,7 +16,7 @@ export default function PriceDetectionSection() {
     const flipkartproductpage = /https:\/\/www.flipkart.com\/.*\/p\/.*/;
     if (flipkartproductpage.test(p_url)){
       const params = new URLSearchParams(new URL(p_url).search);
-      const pid = params.get('pid');
+      const pid = params.get('pd_rd_i');
       if (pid === null) {
         console.log("'pid' parameter is not present in the URL");
       } else {
@@ -27,7 +27,7 @@ export default function PriceDetectionSection() {
       console.log(url_Data);
       console.log('Product ID:', pid);
       console.log('Product URL:', p_url);
-      fetch(`backendapi.trendshield.in`, {
+      fetch(`http://3.110.196.181/initializer/get_url/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export default function PriceDetectionSection() {
       console.log(url_Data);
       console.log('Product ID:', asin);
       console.log('Product URL:', p_url);
-      fetch(`backendapi.trendshield.in`, {
+      fetch(`http://3.110.196.181/initializer/get_url/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
