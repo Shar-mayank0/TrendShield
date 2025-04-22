@@ -43,6 +43,7 @@ services:
 
   # Django Backend
   backend:
+    image: trend_shield-backend:latest
     build:
       context: ./backend
       dockerfile: dockerfile.backend
@@ -63,6 +64,7 @@ services:
 
   # Celery Worker for async task processing
   worker:
+    image: trend_shield-worker:latest
     build:
       context: ./backend
       dockerfile: dockerfile.celery
@@ -83,6 +85,7 @@ services:
 
   # Next.js Frontend
   frontend:
+    image: trend_shield-frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile
