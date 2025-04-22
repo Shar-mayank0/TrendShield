@@ -50,6 +50,7 @@ jobs:
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
           docker stop trendshield_backend || true
           docker rm trendshield_backend || true
+          docker system prune  -a -f || true
           docker pull ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
           docker run -d   --name trendshield_backend   -p 80:80   -p 443:80  ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
           exit
@@ -65,6 +66,7 @@ jobs:
 
           docker stop worker || true
           docker rm worker || true
+          docker system prune  -a -f || true
           docker pull ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
           docker run -d --name worker -p 80:80 ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
           exit
@@ -80,6 +82,7 @@ jobs:
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
           docker stop frontend || true
           docker rm frontend || true
+          docker system prune  -a -f || true
           docker pull ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
           docker run --name frontend -d -p 81:3000 ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
           exit
