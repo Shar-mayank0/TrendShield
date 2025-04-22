@@ -82,27 +82,27 @@ jobs:
 
           docker pull ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
           docker run -d \
-          -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-          -e AWS_REGION=$AWS_REGION \
-          -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-          -e BACKEND_SERVER_IP=$BACKEND_SERVER_IP \
-          -e CELERY_BROKER_URL=$CELERY_BROKER_URL \
-          -e CELERY_RESULT_BACKEND=$CELERY_RESULT_BACKEND \
-          -e CELERY_SERVER_IP=$CELERY_SERVER_IP \
-          -e ECR_REGISTRY=$ECR_REGISTRY \
-          -e ECR_REPOSITORY_BACKEND=$ECR_REPOSITORY_BACKEND \
-          -e ECR_REPOSITORY_CELERY=$ECR_REPOSITORY_CELERY \
-          -e ECR_REPOSITORY_FRONTEND=$ECR_REPOSITORY_FRONTEND \
-          -e ENGINE=$ENGINE \
-          -e FRONTEND_SERVER_IP=$FRONTEND_SERVER_IP \
-          -e HOST=$HOST \
-          -e NAME=$NAME \
-          -e PASSWORD=$PASSWORD \
-          -e PORT=$PORT \
-          -e SECRET_KEY=$SECRET_KEY \
-          -e SSH_KEY=$SSH_KEY \
-          -e SSH_USER=$SSH_USER \
-          -e USER=$USER \
+          -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+          -e AWS_REGION=${{ secrets.AWS_REGION }} \
+          -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+          -e BACKEND_SERVER_IP=${{ secrets.BACKEND_SERVER_IP }} \
+          -e CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }} \
+          -e CELERY_RESULT_BACKEND=${{ secrets.CELERY_RESULT_BACKEND }} \
+          -e CELERY_SERVER_IP=${{ secrets.CELERY_SERVER_IP }} \
+          -e ECR_REGISTRY=${{ secrets.ECR_REGISTRY }} \
+          -e ECR_REPOSITORY_BACKEND=${{ secrets.ECR_REPOSITORY_BACKEND }} \
+          -e ECR_REPOSITORY_CELERY=${{ secrets.ECR_REPOSITORY_CELERY }} \
+          -e ECR_REPOSITORY_FRONTEND=${{ secrets.ECR_REPOSITORY_FRONTEND }} \
+          -e ENGINE=${{ secrets.ENGINE }} \
+          -e FRONTEND_SERVER_IP=${{ secrets.FRONTEND_SERVER_IP }} \
+          -e HOST=${{ secrets.HOST }} \
+          -e NAME=${{ secrets.NAME }} \
+          -e PASSWORD=${{ secrets.PASSWORD }} \
+          -e PORT=${{ secrets.PORT }} \
+          -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
+          -e SSH_KEY=${{ secrets.SSH_KEY }} \
+          -e SSH_USER=${{ secrets.SSH_USER }} \
+          -e USER=${{ secrets.USER }} \
           --name trendshield_backend \
           -p 80:80 -p 443:80 \
           ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
@@ -128,27 +128,27 @@ jobs:
 
           docker pull ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
           docker run -d \
-          -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-          -e AWS_REGION=$AWS_REGION \
-          -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-          -e BACKEND_SERVER_IP=$BACKEND_SERVER_IP \
-          -e CELERY_BROKER_URL=$CELERY_BROKER_URL \
-          -e CELERY_RESULT_BACKEND=$CELERY_RESULT_BACKEND \
-          -e CELERY_SERVER_IP=$CELERY_SERVER_IP \
-          -e ECR_REGISTRY=$ECR_REGISTRY \
-          -e ECR_REPOSITORY_BACKEND=$ECR_REPOSITORY_BACKEND \
-          -e ECR_REPOSITORY_CELERY=$ECR_REPOSITORY_CELERY \
-          -e ECR_REPOSITORY_FRONTEND=$ECR_REPOSITORY_FRONTEND \
-          -e ENGINE=$ENGINE \
-          -e FRONTEND_SERVER_IP=$FRONTEND_SERVER_IP \
-          -e HOST=$HOST \
-          -e NAME=$NAME \
-          -e PASSWORD=$PASSWORD \
-          -e PORT=$PORT \
-          -e SECRET_KEY=$SECRET_KEY \
-          -e SSH_KEY=$SSH_KEY \
-          -e SSH_USER=$SSH_USER \
-          -e USER=$USER \
+          -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+          -e AWS_REGION=${{ secrets.AWS_REGION }} \
+          -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+          -e BACKEND_SERVER_IP=${{ secrets.BACKEND_SERVER_IP }} \
+          -e CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }} \
+          -e CELERY_RESULT_BACKEND=${{ secrets.CELERY_RESULT_BACKEND }} \
+          -e CELERY_SERVER_IP=${{ secrets.CELERY_SERVER_IP }} \
+          -e ECR_REGISTRY=${{ secrets.ECR_REGISTRY }} \
+          -e ECR_REPOSITORY_BACKEND=${{ secrets.ECR_REPOSITORY_BACKEND }} \
+          -e ECR_REPOSITORY_CELERY=${{ secrets.ECR_REPOSITORY_CELERY }} \
+          -e ECR_REPOSITORY_FRONTEND=${{ secrets.ECR_REPOSITORY_FRONTEND }} \
+          -e ENGINE=${{ secrets.ENGINE }} \
+          -e FRONTEND_SERVER_IP=${{ secrets.FRONTEND_SERVER_IP }} \
+          -e HOST=${{ secrets.HOST }} \
+          -e NAME=${{ secrets.NAME }} \
+          -e PASSWORD=${{ secrets.PASSWORD }} \
+          -e PORT=${{ secrets.PORT }} \
+          -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
+          -e SSH_KEY=${{ secrets.SSH_KEY }} \
+          -e SSH_USER=${{ secrets.SSH_USER }} \
+          -e USER=${{ secrets.USER }} \
           --name worker \
           -p 80:80 \
           ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
