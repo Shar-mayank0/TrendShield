@@ -71,8 +71,8 @@ jobs:
         script: |
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
-          docker stop worker || true
-          docker rm worker || true
+          docker stop trendshield_backend || true
+          docker rm trendshield_backend || true
           echo "🔥 Deep cleaning Docker..."
           docker system prune -a --volumes -f
           rm -rf /var/lib/docker/tmp/*
