@@ -47,6 +47,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
           docker stop trendshield_backend || true
           docker rm trendshield_backend || true
           docker pull ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
@@ -60,6 +61,8 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+
           docker stop worker || true
           docker rm worker || true
           docker pull ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
@@ -74,6 +77,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
           docker stop frontend || true
           docker rm frontend || true
           docker pull ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
