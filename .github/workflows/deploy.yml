@@ -30,13 +30,13 @@ jobs:
         
     - name: Tag and Push Docker image
       run: |
-        docker tag backend_service ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
+        docker tag trend_shield-backend ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
         docker push ${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
 
-        docker tag celery_worker ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
+        docker tag trend_shield-worker ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
         docker push ${{ secrets.ECR_REPOSITORY_CELERY }}:latest
 
-        docker tag frontend_service ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
+        docker tag trend_shield-frontend ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
         docker push ${{ secrets.ECR_REPOSITORY_FRONTEND }}:latest
 
 
