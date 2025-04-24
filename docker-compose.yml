@@ -56,9 +56,6 @@ services:
       #   condition: service_healthy
       redis:
         condition: service_started
-    ports:
-      - "80:80"
-      - "443:80"
     volumes:
       - ./backend:/app
 
@@ -95,6 +92,3 @@ services:
       NEXT_PUBLIC_BACKEND_URL: "http://backend:8000"
     depends_on:
       - backend
-    ports:
-      - "80:3000"
-      - "80:443"

@@ -27,7 +27,7 @@ export default function PriceDetectionSection() {
       console.log(url_Data);
       console.log('Product ID:', pid);
       console.log('Product URL:', p_url);
-      fetch(`http://3.110.196.181/initializer/get_url/`, {
+      fetch(`http://backend.trendshield.in/initializer/get_url/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export default function PriceDetectionSection() {
       console.log(url_Data);
       console.log('Product ID:', asin);
       console.log('Product URL:', p_url);
-      fetch(`http://3.110.196.181/initializer/get_url/`, {
+      fetch(`http://backend.trendshield.in/initializer/get_url/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
