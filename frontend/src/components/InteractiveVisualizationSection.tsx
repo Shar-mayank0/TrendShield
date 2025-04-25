@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Info, ToggleLeft, ZoomIn } from "lucide-react";
 
+import ChartsComponent from "@/components/ChartsComponent";
+
 import { useState } from "react";
 
 export default function InteractiveVisualizationSection() {
@@ -124,7 +126,9 @@ export default function InteractiveVisualizationSection() {
           </CardHeader>
           <CardContent className="p-8">
             {/* Chart Placeholder */}
-            <div className="w-full h-[500px] bg-[url(/image.png)] bg-cover bg-center mb-6" />
+            <div className="w-full h-[500px] bg-[url(/image.png)] bg-cover bg-center mb-6">
+              <ChartsComponent />
+            </div>
 
             {/* Stats Row */}
             <div className="grid grid-cols-3 gap-6">
