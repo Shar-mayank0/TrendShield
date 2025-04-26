@@ -1,4 +1,4 @@
-import { all } from "axios";
+
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, ScatterChart, Scatter } from "recharts";
 
 
