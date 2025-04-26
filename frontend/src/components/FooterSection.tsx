@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { Facebook, Instagram, Linkedin, Twitter, Github } from "lucide-react";
+import { Instagram, Linkedin, Twitter, Github } from "lucide-react";
 
 
 export default function FooterSection(){
