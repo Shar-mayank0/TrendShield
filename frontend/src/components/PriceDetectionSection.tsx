@@ -12,8 +12,8 @@ export default function PriceDetectionSection() {
     }
   };
   const UrlSearch = (p_url: string) => {
-    const amazonProductPage = /https:\/\/www.amazon.in\/.*\/dp\/.*/;
-    const flipkartproductpage = /https:\/\/www.flipkart.com\/.*\/p\/.*/;
+    const amazonProductPage = /https:\/\/www\.amazon\.in(\/.*)?\/dp\/.*/;
+    const flipkartproductpage = /https:\/\/www\.flipkart\.com(\/.*)?\/p\/.*/;
     if (flipkartproductpage.test(p_url)){
       const params = new URLSearchParams(new URL(p_url).search);
       const pid = params.get('pid');
@@ -103,7 +103,7 @@ export default function PriceDetectionSection() {
                   className="border-0 bg-transparent text-xs text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 h-5 px-2"
                   placeholder="Enter Product URL"
                 />
-                <Button type="submit" className="hidden sm:block bg-[#3498db] hover:bg-[#2980b9] text-white text-xs ml-2 px-2 py-2 rounded-[10px]">
+                <Button type="submit" onClick={scrollToVisualization} className="hidden sm:block bg-[#3498db] hover:bg-[#2980b9] text-white text-xs ml-2 px-2 py-2 rounded-[10px]">
                   Search
                 </Button>
                 </form>
