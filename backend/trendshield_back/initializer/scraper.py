@@ -38,12 +38,14 @@ class WebScraper:
         soup = BeautifulSoup(html, "lxml")
 
         script_tag = soup.find("script", string=re.compile(r"var data =(.+?);"))
-        if not script_tag:
-            self.res = f"[ERROR] No script tag found for {self.site} product {self.product_id}"
+        script_content = script_tag.get_text() if script_tag else ""
+
+        if not script_content:
+            self.res = f"[ERROR] No parsable script data for {self.site} product {self.product_id}"
             logger.info(self.res)
             return
 
-        match = re.search(r"var data\s*=\s*(\{.*?\})\s*;", script_tag.string, re.DOTALL)
+        match = re.search(r"var data\s*=\s*(\{.*?\})\s*;", script_content, re.DOTALL)
         if not match:
             self.res = f"[ERROR] No JSON data found in script tag for {self.site} product {self.product_id}"
             logger.info(self.res)
